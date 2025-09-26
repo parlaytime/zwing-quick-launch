@@ -13,31 +13,30 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card border-b border-border p-6">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground flex items-center">
-              <Shield className="h-8 w-8 text-primary mr-3" />
-              Admin Dashboard
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              Welcome, {profile?.display_name} • Manage the Zwing platform
-            </p>
-          </div>
-          <Badge variant="secondary" className="text-sm">
-            Admin Access
-          </Badge>
+    <div className="p-6 space-y-6">
+      {/* Welcome Header */}
+      <div className="flex items-center justify-between">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold flex items-center">
+            <Shield className="h-8 w-8 text-primary mr-3" />
+            Admin Dashboard
+          </h1>
+          <p className="text-muted-foreground">
+            Welcome, {profile?.display_name} • Manage the Zwing platform
+          </p>
         </div>
-      </header>
-
-      <div className="max-w-7xl mx-auto p-6 space-y-8">
+        <Badge variant="secondary" className="text-sm">
+          Admin Access
+        </Badge>
+      </div>
+      <div className="space-y-8">
         {/* Platform Stats */}
         <section>
           <h2 className="text-2xl font-semibold mb-4">Platform Overview</h2>
@@ -100,7 +99,10 @@ const AdminDashboard = () => {
         <section>
           <h2 className="text-2xl font-semibold mb-4">Admin Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/admin/users')}
+            >
               <CardContent className="p-6 text-center">
                 <Users className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Manage Users</h3>
@@ -110,7 +112,10 @@ const AdminDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/admin/drills')}
+            >
               <CardContent className="p-6 text-center">
                 <Video className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Drill Library</h3>
@@ -120,7 +125,10 @@ const AdminDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/admin/analytics')}
+            >
               <CardContent className="p-6 text-center">
                 <TrendingUp className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Analytics</h3>
@@ -130,7 +138,10 @@ const AdminDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/admin/settings')}
+            >
               <CardContent className="p-6 text-center">
                 <Settings className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">System Settings</h3>

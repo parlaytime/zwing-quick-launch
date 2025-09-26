@@ -4,10 +4,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import Auth from "@/pages/Auth";
+import Login from "@/pages/Login";
+import AuthCallback from "@/pages/AuthCallback";
 import PlayerDashboard from "@/components/dashboard/PlayerDashboard";
 import CoachDashboard from "@/components/dashboard/CoachDashboard";
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,11 +26,47 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/auth" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;
 };
+
+// Route components for each role
+const PlayerRoutes = () => (
+  <Routes>
+    <Route index element={<PlayerDashboard />} />
+    <Route path="coaches" element={<div className="p-6">My Coaches - Coming Soon</div>} />
+    <Route path="find" element={<div className="p-6">Find Coaches - Coming Soon</div>} />
+    <Route path="book" element={<div className="p-6">Book Lesson - Coming Soon</div>} />
+    <Route path="recaps" element={<div className="p-6">Lesson Recaps - Coming Soon</div>} />
+    <Route path="messages" element={<div className="p-6">Messages - Coming Soon</div>} />
+  </Routes>
+);
+
+const CoachRoutes = () => (
+  <Routes>
+    <Route index element={<CoachDashboard />} />
+    <Route path="students" element={<div className="p-6">Students - Coming Soon</div>} />
+    <Route path="schedule" element={<div className="p-6">Schedule - Coming Soon</div>} />
+    <Route path="lesson-types" element={<div className="p-6">Lesson Types - Coming Soon</div>} />
+    <Route path="availability" element={<div className="p-6">Availability - Coming Soon</div>} />
+    <Route path="drills" element={<div className="p-6">Drill Library - Coming Soon</div>} />
+    <Route path="recaps" element={<div className="p-6">Lesson Recaps - Coming Soon</div>} />
+    <Route path="messages" element={<div className="p-6">Messages - Coming Soon</div>} />
+    <Route path="settings" element={<div className="p-6">Settings - Coming Soon</div>} />
+  </Routes>
+);
+
+const AdminRoutes = () => (
+  <Routes>
+    <Route index element={<AdminDashboard />} />
+    <Route path="users" element={<div className="p-6">Users - Coming Soon</div>} />
+    <Route path="drills" element={<div className="p-6">Drill Moderation - Coming Soon</div>} />
+    <Route path="analytics" element={<div className="p-6">Analytics - Coming Soon</div>} />
+    <Route path="settings" element={<div className="p-6">Settings - Coming Soon</div>} />
+  </Routes>
+);
 
 const DashboardRouter = () => {
   const { profile, loading } = useAuth();
@@ -42,18 +80,18 @@ const DashboardRouter = () => {
   }
 
   if (!profile) {
-    return <Navigate to="/auth" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   switch (profile.role) {
     case 'admin':
-      return <AdminDashboard />;
+      return <Navigate to="/admin" replace />;
     case 'coach':
-      return <CoachDashboard />;
+      return <Navigate to="/coach" replace />;
     case 'player':
-      return <PlayerDashboard />;
+      return <Navigate to="/player" replace />;
     default:
-      return <Navigate to="/auth" replace />;
+      return <Navigate to="/login" replace />;
   }
 };
 
@@ -68,8 +106,43 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route 
-              path="/auth" 
-              element={isAuthenticated ? <Navigate to="/" replace /> : <Auth />} 
+              path="/login" 
+              element={isAuthenticated ? <Navigate to="/" replace /> : <Login />} 
+            />
+            <Route 
+              path="/auth/callback" 
+              element={<AuthCallback />} 
+            />
+            {/* Protected Routes */}
+            <Route 
+              path="/player/*"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <PlayerRoutes />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/coach/*"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <CoachRoutes />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/admin/*"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <AdminRoutes />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
             />
             <Route 
               path="/" 

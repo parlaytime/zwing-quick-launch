@@ -9,33 +9,39 @@ import {
   BookOpen,
   Video,
   User,
-  MapPin
+  MapPin,
+  Plus,
+  Clock,
+  Target
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const PlayerDashboard = () => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card border-b border-border p-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-foreground">
-            Welcome back, {profile?.display_name || 'Player'}!
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Ready to improve your golf game today?
-          </p>
-        </div>
-      </header>
+    <div className="p-6 space-y-6">
+      {/* Welcome Header */}
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold">
+          Welcome back, {profile?.display_name || 'Player'}!
+        </h1>
+        <p className="text-muted-foreground">
+          Ready to improve your golf game today?
+        </p>
+      </div>
 
-      <div className="max-w-7xl mx-auto p-6 space-y-8">
+      <div className="space-y-8">
         {/* Quick Actions */}
         <section>
           <h2 className="text-2xl font-semibold mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/player/book')}
+            >
               <CardContent className="p-6 text-center">
                 <Calendar className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Book Lesson</h3>
@@ -45,7 +51,10 @@ const PlayerDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/player/messages')}
+            >
               <CardContent className="p-6 text-center">
                 <MessageCircle className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Message Coach</h3>
@@ -55,7 +64,10 @@ const PlayerDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/player/find')}
+            >
               <CardContent className="p-6 text-center">
                 <Search className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Find Coaches</h3>
@@ -65,7 +77,10 @@ const PlayerDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/player/recaps')}
+            >
               <CardContent className="p-6 text-center">
                 <BookOpen className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">View Recaps</h3>
@@ -81,7 +96,9 @@ const PlayerDashboard = () => {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-semibold">Recent Lesson Recaps</h2>
-            <Button variant="outline">View All</Button>
+            <Button variant="outline" onClick={() => navigate('/player/recaps')}>
+              View All
+            </Button>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -105,7 +122,7 @@ const PlayerDashboard = () => {
                     <span>2 videos</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <BookOpen className="h-4 w-4" />
+                    <Target className="h-4 w-4" />
                     <span>3 drills</span>
                   </div>
                 </div>
@@ -130,7 +147,7 @@ const PlayerDashboard = () => {
                     <span>1 video</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <BookOpen className="h-4 w-4" />
+                    <Target className="h-4 w-4" />
                     <span>2 drills</span>
                   </div>
                 </div>
@@ -144,7 +161,9 @@ const PlayerDashboard = () => {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-semibold">Your Coaches</h2>
-            <Button variant="outline">Find More Coaches</Button>
+            <Button variant="outline" onClick={() => navigate('/player/find')}>
+              Find More Coaches
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -171,11 +190,11 @@ const PlayerDashboard = () => {
                 </p>
                 
                 <div className="flex gap-2">
-                  <Button size="sm" className="flex-1">
+                  <Button size="sm" className="flex-1" onClick={() => navigate('/player/book')}>
                     <Calendar className="h-4 w-4 mr-2" />
                     Book
                   </Button>
-                  <Button size="sm" variant="outline" className="flex-1">
+                  <Button size="sm" variant="outline" className="flex-1" onClick={() => navigate('/player/messages')}>
                     <MessageCircle className="h-4 w-4 mr-2" />
                     Message
                   </Button>
@@ -183,6 +202,35 @@ const PlayerDashboard = () => {
               </CardContent>
             </Card>
           </div>
+        </section>
+
+        {/* Next Lesson */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Upcoming Lessons</h2>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-primary">22</p>
+                    <p className="text-xs text-muted-foreground">MAR</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Putting Practice with Coach Smith</h4>
+                    <div className="flex items-center text-sm text-muted-foreground mt-1">
+                      <Clock className="h-3 w-3 mr-1" />
+                      <span>2:00 PM - 3:00 PM</span>
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground mt-1">
+                      <MapPin className="h-3 w-3 mr-1" />
+                      <span>Riverside Golf Club</span>
+                    </div>
+                  </div>
+                </div>
+                <Badge>60 min</Badge>
+              </div>
+            </CardContent>
+          </Card>
         </section>
       </div>
     </div>

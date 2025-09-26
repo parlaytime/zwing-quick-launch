@@ -11,28 +11,29 @@ import {
   Video,
   Settings,
   Clock,
-  DollarSign
+  DollarSign,
+  TrendingUp,
+  Target
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const CoachDashboard = () => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card border-b border-border p-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-foreground">
-            Welcome, Coach {profile?.display_name}!
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Manage your students and grow your coaching business
-          </p>
-        </div>
-      </header>
-
-      <div className="max-w-7xl mx-auto p-6 space-y-8">
+    <div className="p-6 space-y-6">
+      {/* Welcome Header */}
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold">
+          Welcome, Coach {profile?.display_name}!
+        </h1>
+        <p className="text-muted-foreground">
+          Manage your students and grow your coaching business
+        </p>
+      </div>
+      <div className="space-y-8">
         {/* Stats Overview */}
         <section>
           <h2 className="text-2xl font-semibold mb-4">Overview</h2>
@@ -91,7 +92,10 @@ const CoachDashboard = () => {
         <section>
           <h2 className="text-2xl font-semibold mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/coach/recaps')}
+            >
               <CardContent className="p-6 text-center">
                 <Plus className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Create Lesson Recap</h3>
@@ -101,7 +105,10 @@ const CoachDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/coach/schedule')}
+            >
               <CardContent className="p-6 text-center">
                 <Calendar className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Manage Schedule</h3>
@@ -111,7 +118,10 @@ const CoachDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/coach/drills')}
+            >
               <CardContent className="p-6 text-center">
                 <Video className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Drill Library</h3>
@@ -121,7 +131,10 @@ const CoachDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-medium transition-shadow cursor-pointer">
+            <Card 
+              className="hover:shadow-medium transition-shadow cursor-pointer"
+              onClick={() => navigate('/coach/settings')}
+            >
               <CardContent className="p-6 text-center">
                 <Settings className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Profile Settings</h3>
