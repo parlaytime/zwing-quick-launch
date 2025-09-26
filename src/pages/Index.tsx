@@ -1,19 +1,8 @@
-import Navigation from "@/components/Navigation";
-import Hero from "@/components/Hero";
-import Features from "@/components/Features";
-import Pricing from "@/components/Pricing";
-import Footer from "@/components/Footer";
+import { Navigate } from "react-router-dom";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen">
-      <Navigation />
-      <Hero />
-      <Features />
-      <Pricing />
-      <Footer />
-    </div>
-  );
+  // Redirect to auth page or dashboard based on authentication status
+  return <Navigate to="/auth" replace />;
 };
 
 export default Index;
